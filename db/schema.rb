@@ -10,19 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_101239) do
+ActiveRecord::Schema.define(version: 2018_08_09_101242) do
 
-  create_table "payment_categories", force: :cascade do |t|
+  create_table "categories", force: :cascade do |t|
     t.string "name"
+    t.integer "type_of_pay", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "payments", force: :cascade do |t|
-    t.integer "payment_category_id"
-    t.string "price"
+  create_table "incomes", force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_incomes_on_category_id"
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer "category_id"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_payments_on_category_id"
   end
 
 end
