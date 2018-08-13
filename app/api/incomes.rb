@@ -1,0 +1,40 @@
+class Incomes < Grape::API
+  version 'v1', using: :path
+  format :json
+  rescue_from :all
+
+  use Rack::Cors do
+    allow do
+      origins '*'
+      resource '*', headers: :any, methods: %i[get post]
+    end
+  end
+
+  resources :income do
+    before do
+      header 'Access-Control-Allow-Origin', 'http://localhost:3000'
+    end
+    get :all do
+      {
+        incomes: Income.main_page
+      }
+    end
+    post :add do
+      {
+        income: Income.add(params),
+        category: Category.find_by(name: params[:category])
+      }
+    end
+    post :update do
+      {
+        income: Income.update(params)
+      }
+    end
+  end
+
+  resources :incomes do
+    post :show do
+      { incomes: [] }
+    end
+  end
+end

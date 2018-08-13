@@ -13,12 +13,12 @@ class Categories < Grape::API
   resources :categories do
     get :payments do
       {
-        categories: Category.where(type_of_pay: 'payment')
+        categories: Category.payment
       }
     end
     get :incomes do
       {
-        categories: Category.where(type_of_pay: 'income')
+        categories: Category.income
       }
     end
   end
