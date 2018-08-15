@@ -1,16 +1,21 @@
 class Income < ApplicationRecord
   belongs_to :category
 
-  scope :current_month, -> {
-    first_of_month = Date.current.beginning_of_month
-    end_of_month = Date.current.end_of_month
+  scope :selected_date, ->(date) {
+    first_of_month = date.beginning_of_month
+    end_of_month = date.end_of_month
     where(created_at: first_of_month..end_of_month)
   }
 
-  def self.main_page
+  def self.main_page(params)
     @categories = Category.income
     @categories.map do |category|
-      payment_object(category)
+      if params[:year] && params[:month]
+        date = Date.new(params[:year], params[:month] + 1)
+        payment_object(category, date)
+      else
+        payment_object(category)
+      end
     end
   end
 
@@ -29,12 +34,12 @@ class Income < ApplicationRecord
     payment_object(category)
   end
 
-  def self.payment_object(category)
+  def self.payment_object(category, date = Date.current)
     {
       id: category.id,
       category: category.name,
       price: category.incomes.last.price,
-      sum: category.incomes.current_month.map(&:price).sum
+      sum: category.incomes.selected_date(date).map(&:price).sum
     }
   end
 end

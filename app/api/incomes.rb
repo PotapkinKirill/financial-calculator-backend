@@ -14,9 +14,9 @@ class Incomes < Grape::API
     before do
       header 'Access-Control-Allow-Origin', 'http://localhost:3000'
     end
-    get :all do
+    post :all do
       {
-        incomes: Income.main_page
+        incomes: Income.main_page(params)
       }
     end
     post :add do

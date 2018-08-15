@@ -20,9 +20,9 @@ class Payments < Grape::API
     before do
       header 'Access-Control-Allow-Origin', 'http://localhost:3000'
     end
-    get :all do
+    post :all do
       {
-        payments: Payment.main_page
+        payments: Payment.main_page(params)
       }
     end
     post :add do
