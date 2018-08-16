@@ -21,5 +21,18 @@ class Categories < Grape::API
         categories: Category.income
       }
     end
+    post :add do
+      {
+        category: Category.create(name: params[:name], type_of_pay: params[:type])
+      }
+    end
+    post :update do
+      {
+        category: Category.update(name: params[:name])
+      }
+    end
+    post :delete do
+      Category.find(params[:id]).delete if params[:id].present?
+    end
   end
 end

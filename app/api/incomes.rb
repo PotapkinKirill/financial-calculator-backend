@@ -12,7 +12,7 @@ class Incomes < Grape::API
 
   resources :income do
     before do
-      header 'Access-Control-Allow-Origin', 'http://localhost:3000'
+      header 'Access-Control-Allow-Origin', '*'
     end
     post :all do
       {
@@ -29,12 +29,6 @@ class Incomes < Grape::API
       {
         income: Income.update(params)
       }
-    end
-  end
-
-  resources :incomes do
-    post :show do
-      { incomes: [] }
     end
   end
 end

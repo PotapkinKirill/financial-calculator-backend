@@ -18,7 +18,7 @@ class Payments < Grape::API
 
   resources :payment do
     before do
-      header 'Access-Control-Allow-Origin', 'http://localhost:3000'
+      header 'Access-Control-Allow-Origin', '*'
     end
     post :all do
       {
@@ -35,12 +35,6 @@ class Payments < Grape::API
       {
         payment: Payment.update(params)
       }
-    end
-  end
-
-  resources :incomes do
-    post :show do
-      { incomes: [] }
     end
   end
 end
