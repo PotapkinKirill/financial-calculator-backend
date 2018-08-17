@@ -1,7 +1,7 @@
 class Category < ApplicationRecord
-  validates :name, uniqueness: true, presence: true
-  has_many :payments, dependent: :destroy
-  has_many :incomes, dependent: :destroy
+  validates :name, uniqueness: {scope: :type_of_pay}
+  has_many :payments
+  has_many :incomes
 
   enum type_of_pay: { payment: 0, income: 1 }
 
@@ -26,5 +26,12 @@ class Category < ApplicationRecord
     category = category.as_json
     category[:sum] = sum
     category
+  end
+
+  def delete
+    @other = Category.find_by(name: 'Other', type_of_pay: type_of_pay)
+    payments.map { |payment| payment.update(category_id: @other.id) }
+    incomes.map { |income| income.update(category_id: @other.id) }
+    super
   end
 end

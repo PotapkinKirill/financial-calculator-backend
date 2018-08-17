@@ -38,7 +38,7 @@ class Categories < Grape::API
     end
     post :update do
       {
-        category: Category.update(name: params[:category])
+        category: Category.find(id: params[:id]).update(name: params[:category])
       }
     end
     post :delete do
