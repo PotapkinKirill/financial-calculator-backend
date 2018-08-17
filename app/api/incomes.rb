@@ -16,7 +16,12 @@ class Incomes < Grape::API
     end
     post :all do
       {
-        incomes: Income.main_page(params)
+        incomes: Income.preview
+      }
+    end
+    post :charts do
+      {
+        incomes: Income.charts(params)
       }
     end
     post :add do
@@ -27,7 +32,7 @@ class Incomes < Grape::API
     end
     post :update do
       {
-        income: Income.update(params)
+        income: Income.add(params)
       }
     end
   end

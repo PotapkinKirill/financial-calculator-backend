@@ -10,19 +10,18 @@ class Payments < Grape::API
     end
   end
 
-  helpers do
-    def payment_category_id
-      PaymentCategory.find_by(name: params[:name]).id
-    end
-  end
-
   resources :payment do
     before do
       header 'Access-Control-Allow-Origin', '*'
     end
     post :all do
       {
-        payments: Payment.main_page(params)
+        payments: Payment.preview
+      }
+    end
+    post :charts do
+      {
+        payments: Payment.charts(params)
       }
     end
     post :add do
@@ -33,7 +32,7 @@ class Payments < Grape::API
     end
     post :update do
       {
-        payment: Payment.update(params)
+        payment: Payment.add(params)
       }
     end
   end

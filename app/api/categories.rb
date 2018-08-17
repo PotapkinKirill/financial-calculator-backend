@@ -11,6 +11,16 @@ class Categories < Grape::API
   end
 
   resources :categories do
+    get :all do
+      {
+        categories: Category.all_with_sum(nil)
+      }
+    end
+    post :all do
+      {
+        categories: Category.all_with_sum(params)
+      }
+    end
     get :payments do
       {
         categories: Category.payment
@@ -23,12 +33,12 @@ class Categories < Grape::API
     end
     post :add do
       {
-        category: Category.create(name: params[:name], type_of_pay: params[:type])
+        category: Category.create(name: params[:category], type_of_pay: params[:type])
       }
     end
     post :update do
       {
-        category: Category.update(name: params[:name])
+        category: Category.update(name: params[:category])
       }
     end
     post :delete do
