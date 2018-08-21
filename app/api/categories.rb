@@ -37,12 +37,14 @@ class Categories < Grape::API
       }
     end
     post :update do
+      Category.find(params[:id]).update(name: params[:category])
       {
-        category: Category.find(id: params[:id]).update(name: params[:category])
+        category: Category.find(params[:id])
       }
     end
     post :delete do
       Category.find(params[:id]).delete if params[:id].present?
+      true
     end
   end
 end

@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+type_of_pay = %w[payment income]
+
+type_of_pay.each do |type|
+  Category.create(name: 'Other', type_of_pay: type)
+end
