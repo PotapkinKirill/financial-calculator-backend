@@ -1,39 +1,29 @@
 class Payments < Grape::API
-  version 'v1', using: :path
-  format :json
-  rescue_from :all
+  resources :payments do
+    desc 'Get all the formatted payments'
+    get do
+      { payments: Payment.preview }
+    end
 
-  use Rack::Cors do
-    allow do
-      origins '*'
-      resource '*', headers: :any, methods: %i[get post]
+    desc 'Add payment and category if needed'
+    params do
+      requires :category, type: String
+      optional :color, type: String, regexp: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     end
-  end
-
-  resources :payment do
-    before do
-      header 'Access-Control-Allow-Origin', '*'
-    end
-    post :all do
-      {
-        payments: Payment.preview
-      }
-    end
-    post :charts do
-      {
-        payments: Payment.charts(params)
-      }
-    end
-    post :add do
+    post do
       {
         payment: Payment.add(params),
         category: Category.find_by(name: params[:category])
       }
     end
-    post :update do
-      {
-        payment: Payment.add(params)
-      }
+
+    desc 'Update payment and category if needed'
+    params do
+      requires :category, type: String
+      optional :color, type: String, regexp: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
+    end
+    put ':id' do
+      { payment: Payment.add(params) }
     end
   end
 end
