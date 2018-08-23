@@ -31,10 +31,11 @@ class Categories < Grape::API
       optional :color, type: String, regexp: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     end
     post do
+      color = Category.generate_color(params)
       {
         category: Category.create(name: params[:category],
                                   type_of_pay: params[:type],
-                                  color: params[:color])
+                                  color: color)
       }
     end
 
@@ -45,8 +46,10 @@ class Categories < Grape::API
       optional :color, type: String, regexp: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/
     end
     put ':id' do
-      Category.find(params[:id]).update(name: params[:category],
-                                        color: params[:color])
+      @category = Category.find(params[:id])
+      color = @category.color
+      color = params[:color] if params[:color]
+      @category.update(name: params[:category], color: color)
       { category: Category.find(params[:id]) }
     end
 

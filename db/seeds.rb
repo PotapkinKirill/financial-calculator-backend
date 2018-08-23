@@ -9,5 +9,5 @@
 type_of_pay = %w[payment income]
 
 type_of_pay.each do |type|
-  Category.create(name: 'Other', type_of_pay: type)
+  Category.create(name: 'Other', type_of_pay: type, color: '#cccccc')
 end

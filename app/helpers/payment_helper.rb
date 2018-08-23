@@ -12,9 +12,12 @@ module PaymentHelper
   end
 
   def add(params)
-    Category.create_with(color: params[:color]) if params[:color]
-    @category = Category.find_or_create_by(name: params[:category],
-                                           type_of_pay: type_of_payment)
+    color = Category.generate_color(params)
+    @category = Category.find_by(name: params[:category],
+                                 type_of_pay: type_of_payment)
+    @category ||= Category.create(name: params[:category],
+                                  type_of_pay: type_of_payment,
+                                  color: color)
     create_payment(@category, params[:price])
   end
 
@@ -28,6 +31,7 @@ module PaymentHelper
       id: payment.id,
       category: category.name,
       price: payment.price,
+      color: category.color,
       created_at: payment.created_at
     }
   end

@@ -1,5 +1,6 @@
 class Category < ApplicationRecord
   validates :name, uniqueness: { scope: :type_of_pay }
+  validates :color, format: { with: Regexp.new('\A#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\z') }
   has_many :payments
   has_many :incomes
   attribute :color, :string, default: -> { generate_color }
@@ -38,8 +39,12 @@ class Category < ApplicationRecord
       category
     end
 
-    def generate_color
-      "##{format('%06x', rand * 0xffffff)}"
+    def generate_color(params = nil)
+      if params[:color]
+        params[:color]
+      else
+        "##{format('%06x', rand * 0xffffff)}"
+      end
     end
   end
 

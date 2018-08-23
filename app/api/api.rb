@@ -10,6 +10,7 @@ class API < Grape::API
     end
   end
 
+  insert_after Grape::Middleware::Formatter, Grape::Middleware::Logger
   mount Categories
   mount Payments
   mount Incomes
