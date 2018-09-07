@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_23_102320) do
+ActiveRecord::Schema.define(version: 2018_08_23_102322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2018_08_23_102320) do
 
   create_table "incomes", force: :cascade do |t|
     t.bigint "category_id"
-    t.integer "price"
+    t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_incomes_on_category_id"
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2018_08_23_102320) do
 
   create_table "payments", force: :cascade do |t|
     t.bigint "category_id"
-    t.decimal "price", precision: 15, scale: 2
+    t.float "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_payments_on_category_id"

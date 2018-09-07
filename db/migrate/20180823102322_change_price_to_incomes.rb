@@ -1,5 +1,5 @@
 class ChangePriceToIncomes < ActiveRecord::Migration[5.2]
   def change
-    change_column :payments, :price, :decimal, precision: 15, scale: 2
+    change_column :incomes, :price, :float
   end
 end
